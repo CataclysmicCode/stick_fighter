@@ -1,3 +1,9 @@
-"scripts": {
-  "start": "node index.js"
+{
+  "name": "stick-fighter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {}
 }
