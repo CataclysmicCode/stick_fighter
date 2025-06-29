@@ -55,7 +55,7 @@ var game = {
     // Debug drawing
     renderWorld: function (world, ctx) {
         ctx.globalAlpha = 0.5;
-        ctx.setLineWidth(0.1);
+        ctx.lineWidth = 0.1;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.save();
         ctx.translate(-game.x + canvas.width / 2, game.y + canvas.height / 2); // Translate to center
