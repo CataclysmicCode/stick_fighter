@@ -220,7 +220,7 @@ class BaseCar {
         this.scale = options.scale ?? scale;
         this.actions = this.createActions();
 
-        this.speed = options.speed ?? 400;
+        this.speed = options.speed ?? 1000;
         this.torque = options.torque ?? 50;
         this.hz = options.hz ?? 4;
         this.zeta = options.zeta ?? 1;
