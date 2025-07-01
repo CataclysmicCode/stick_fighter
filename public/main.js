@@ -55,7 +55,7 @@ var game = {
     // Debug drawing
     renderWorld: function (world, ctx) {
         ctx.globalAlpha = 0.5;
-        ctx.setLineWidth(0.1);
+        ctx.lineWidth = 0.1;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.save();
         ctx.translate(-game.x + canvas.width / 2, game.y + canvas.height / 2); // Translate to center
@@ -220,7 +220,7 @@ class BaseCar {
         this.scale = options.scale ?? scale;
         this.actions = this.createActions();
 
-        this.speed = options.speed ?? 400;
+        this.speed = options.speed ?? 1000;
         this.torque = options.torque ?? 50;
         this.hz = options.hz ?? 4;
         this.zeta = options.zeta ?? 1;
@@ -386,19 +386,37 @@ class BaseCar {
     }
 
     update() {
+
+        // Function to normalize an angle to the range [-PI, PI]
+        function normalizeAngle(angle) {
+            let normalized = angle % (2 * Math.PI);
+            if (normalized > Math.PI) {
+                normalized -= 2 * Math.PI;
+            } else if (normalized < -Math.PI) {
+                normalized += 2 * Math.PI;
+            }
+            return normalized;
+        }
+
         // Check if car is upside down
         const angle = this.bodies.car.getAngle();
-        // Normalize angle to [-PI, PI]
-        const normAngle = ((angle + Math.PI) % (2 * Math.PI)) - Math.PI;
-        // Consider upside down if angle is near PI or -PI (within 45 degrees)
+
+        // Normalize angle to [-PI, PI] using the more robust function
+        const normAngle = normalizeAngle(angle); // Use the function defined above
+
         if (!this.flipState.flipping && Math.abs(Math.abs(normAngle) - Math.PI) < Math.PI / 4) {
             this.flipState.upsideDownTime += 1 / 60; // assuming 60 FPS
+            console.log(`Car is upside down! UpsideDownTime: ${this.flipState.upsideDownTime.toFixed(2)}`);
             if (this.flipState.upsideDownTime > this.flipConfig.threshold) {
+                console.log("Threshold reached! Initiating flip.");
                 this.flipState.flipping = true;
                 this.flipState.frame = 0;
                 this.flipState.direction = normAngle > 0 ? -1 : 1;
             }
         } else if (!this.flipState.flipping) {
+            if (this.flipState.upsideDownTime > 0) { // Only log if it was counting down
+                console.log("Car is no longer upside down. Resetting upsideDownTime.");
+            }
             this.flipState.upsideDownTime = 0;
         }
 

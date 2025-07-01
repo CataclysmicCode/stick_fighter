@@ -30,7 +30,7 @@ class Prototype {
     curve(x1, y1, cx, cy, x2, y2) {
         
         //begin
-        ctx.setLineWidth(1);
+        ctx.lineWidth = 1;
         ctx.beginPath();
 
         // Calculate the optimal amount of segments based on the curve's length and curvature
@@ -84,7 +84,7 @@ class Prototype {
     */
     bezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2) {
         //begin
-        ctx.setLineWidth(1);
+        ctx.lineWidth = 1;
         ctx.beginPath();
 
         // Calculate the optimal amount of segments based on the curve's length and curvature
